@@ -1,22 +1,34 @@
 // eslint-disable-next-line no-unused-vars
 import { useForm, Controller } from "react-hook-form";
-import { registerUser } from "../../ApiInstance/chateApi";
+import { useDispatch } from "react-redux";
+import { createUser } from "../../Slices/userslice/userSlice";
+import { Navigate,useNavigate } from "react-router";
 const intialvalue = {
   email: "",
   password: "",
 };
-const RegisterUser = () => {
-  const { handleSubmit, register, control, reset } = useForm({
+const Register = () => {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+  const { handleSubmit, register, reset } = useForm({
     defaultValues: intialvalue,
   });
 
-  const handleSubmitData =async (data) => {
-    try{
-        const res=await registerUser(data)
-        console.log(res,"your response")
-    }catch(err){
-        console.log(err,"you got an error")
-    }
+  const handleSubmitData = (data) => {
+  try{
+    dispatch(createUser(data)).unwrap()
+    .then((data)=>{
+      if(data.statusCode===200){
+        navigate("/login")
+      }else{
+       navigate("/register")
+      }
+    })
+    .catch((error)=>console.log(error))
+    
+  }catch(error){
+    console.log(error)
+  }
     reset();
   };
   return (
@@ -76,7 +88,7 @@ const RegisterUser = () => {
     </div>
   );
 };
-export default RegisterUser;
+export default Register;
 
 // {
 //     "name": "string",
