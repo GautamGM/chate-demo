@@ -1,39 +1,36 @@
-import axios from "axios"
-import { getDataFromLocalStorage } from "../Utilies/LocalStorge"
+import axios from "axios";
+import { getDataFromLocalStorage } from "../Utilies/LocalStorge";
 
-const url="https://chatappgagan.onrender.com"
+const url = "https://chatappgagan.onrender.com";
 
-const api=axios.create({
-    baseURL:url
-})
+const api = axios.create({
+  baseURL: url,
+});
 
 
 // intercepTer Request
-axios.interceptors.request.use(
-    async(config)=>{
-        console.log(config)
-        const token=await getDataFromLocalStorage("authToken")
-        console.log("token",token)
-        config.headers.Authorization=`Bearer ${token}`;
-        return config
-    },
-    (error)=>{
-        return Promise.reject(error)
-    }
-)
+api.interceptors.request.use(
+  async (config) => {
+    const token = getDataFromLocalStorage("authToken");
+      config.headers.Authorization = `Bearer ${token}`;
+      
+      return config;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 // response
-axios.interceptors.response.use(
-    (response)=>{
-        console.log(response)
-        return  response
-    },
-    (error)=>{
-        console.log("Your token is Expire ")
-        console.log(error)
-        window.location.href("/")
-    }
-)
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+   throw error
+  }
+);
 
-queueMicrotask
-export default api
+queueMicrotask;
+export default api;

@@ -2,7 +2,9 @@
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { createUser } from "../../Slices/userslice/userSlice";
-import { Navigate,useNavigate } from "react-router";
+import { useNavigate ,Link} from "react-router";
+
+import { toast } from "sonner";
 const intialvalue = {
   email: "",
   password: "",
@@ -19,17 +21,23 @@ const Register = () => {
     dispatch(createUser(data)).unwrap()
     .then((data)=>{
       if(data.statusCode===200){
+        toast.success ("register succesfully")
         navigate("/login")
+        reset();
       }else{
        navigate("/register")
       }
     })
-    .catch((error)=>console.log(error))
+    .catch((error)=>{
+      toast.info(error)
+      reset();
+    })
     
   }catch(error){
-    console.log(error)
+    console.log(error,"fdgsdgdfgsdg")
+    
   }
-    reset();
+    
   };
   return (
     <div>
@@ -55,21 +63,7 @@ const Register = () => {
             {...register("email", { required: true })}
           />
           {/* ---------------------------- */}
-          <label>countryCode</label>
-          <input
-            type="text"
-            className="border border-black "
-            placeholder="countryCode"
-            {...register("countryCode", { required: true })}
-          />
-          {/* ---------------------------- */}
-          <label>contactNumber</label>
-          <input
-            type="text"
-            className="border border-black "
-            placeholder="contactNumber"
-            {...register("contactNumber", { required: true })}
-          />
+        
           {/* ---------------------------- */}
           <label>password</label>
           <input
@@ -83,6 +77,10 @@ const Register = () => {
           <button type="submit" className="border mt-5 border-black  bg-[blue] p-5 rounded text-white ">
             Register
           </button>
+          {/* lonk to logi page */}
+        <div>
+          <p className=" mt-4"> already have accont please <Link to="/login" className="text-blue-700 text-[18px] font-[500]">Click here</Link></p>
+        </div>
         </div>
       </form>
     </div>

@@ -1,38 +1,44 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
 import { FaUserCircle } from "react-icons/fa";
 import { loginUser } from "../../Slices/userslice/userSlice";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import  {setDataToLocalStorage} from "../../Utilies/LocalStorge"
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Navigate, Link } from "react-router";
+import { setDataToLocalStorage } from "../../Utilies/LocalStorge";
+import { toast } from "sonner";
 const intialvalue = {
   email: "",
   password: "",
 };
 const Login = () => {
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
-  const { handleSubmit, register } = useForm({
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoading } = useSelector((state) => state.user);
+  const {
+    handleSubmit,
+    register,
+    formState: { isSubmitting },
+  } = useForm({
     defaultValues: intialvalue,
   });
 
   const handleSubmitData = async (data) => {
-
-    try{
-        dispatch(loginUser(data)).unwrap()
-        .then((data)=>{
-            setDataToLocalStorage("authToken",data.data.token);
-            navigate("/dashboard")
-        }
-        )
-        .catch((error)=>console.log(error))
-
-    }catch(error){
-        console.log(error)
+    try {
+      dispatch(loginUser(data))
+        .unwrap()
+        .then((data) => {
+          console.log(data, "login page");
+          toast.success(data.message);
+          setDataToLocalStorage("authToken", data.data.token);
+          navigate("/dashboard");
+        })
+        .catch((error) => {
+          toast.info(error);
+        });
+    } catch (error) {
+      toast.error("error plese try again ");
+      console.log(error);
     }
   };
-
-
 
   return (
     <div className=" ">
@@ -72,8 +78,12 @@ const Login = () => {
               {...register("password", { required: true })}
             />
 
-            <button type="submit" className="border border-black p-2 mt-4">
-              Singn in
+            <button
+              disabled={isSubmitting}
+              type="submit"
+              className="border border-black p-2 mt-4"
+            >
+              {isLoading ? "logging..." : "Sign in"}
             </button>
             <p className="mt-3">
               If you don&apos;t have account please{" "}
