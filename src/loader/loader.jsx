@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-
+import "./loader.css"
 const Loader = () => {
   return (
     // eslint-disable-next-line react/no-unknown-property

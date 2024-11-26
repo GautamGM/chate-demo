@@ -42,12 +42,11 @@ function App() {
 
 
 
-  if (loading) {
-    return <Loader />;
-  }
+
   return (
     <BrowserRouter>
       {`=========${isAuthenticated}`}
+      <Loader/>
       <Routes>
         {/* force fully login page */}
         <Route path="/" element={isAuthenticated ? <Dashboard /> : <Login />} />
