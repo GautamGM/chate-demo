@@ -9,61 +9,24 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Loader from "./loader/loader";
 import { getAdminDetail } from "./Slices/userslice/userSlice";
+import PublicLayout from "./layout/publicLayout/publicLayout";
+import PrivateLayout from "./layout/privateLayout/privateLayout";
+import HomePage from "./pages/homePage/homepage";
 
 function App() {
-  
-  const dispatch=useDispatch()
-  // eslint-disable-next-line no-unused-vars
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-  // useffect for  checking the user in sauthenticate or not
-  useEffect(() => {
-    const token = getDataFromLocalStorage("authToken");
-    console.log("useff-------->");
-    if (token) {
-      console.log(token, "shdfagh");
-      setIsAuthenticated(true);
-      setLoading(false);
-
-      dispatch(getAdminDetail()).unwrap()
-      .then((data)=>{
-        console.log("admin-->",data)
-      })
-      .catch((error)=>{
-        console.log("error",error)
-      })
-      
-    } else {
-      setIsAuthenticated(false);
-      setLoading(false);
-    }
-  }, []);
-  console.log(isAuthenticated, "chech authtoken");
-
-
-
-
   return (
-    <BrowserRouter>
-      {`=========${isAuthenticated}`}
-      <Loader/>
-      <Routes>
-        {/* force fully login page */}
-        <Route path="/" element={isAuthenticated ? <Dashboard /> : <Login />} />
-        <Route
-          path="/dashboard"
-          element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/login"
-          element={isAuthenticated ? <Dashboard /> : <Login />}
-        />
-        <Route
-          path="/register"
-          element={isAuthenticated ? <Dashboard /> : <Register />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login"/>}/>
+
+      <Route element={<PublicLayout/>}>
+       <Route path="/login" element={<Login/>}/>
+       <Route path="/register" element={<Register/>}/>
+      </Route>
+
+      <Route element={<PrivateLayout/>}>
+       <Route path="/dashboard" element={<Dashboard/>}/>
+      </Route>
+    </Routes>
   );
 }
 

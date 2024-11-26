@@ -12,15 +12,14 @@ const intialvalue = {
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading } = useSelector((state) => state.user);
+  const { isLoading ,userData} = useSelector((state) => state.user);
   const {
     handleSubmit,
     register,
-    formState: { isSubmitting },
   } = useForm({
     defaultValues: intialvalue,
   });
-
+  console.log(isLoading,"loas",userData)
   const handleSubmitData = async (data) => {
     try {
       dispatch(loginUser(data))
@@ -79,7 +78,7 @@ const Login = () => {
             />
 
             <button
-              disabled={isSubmitting}
+              disabled={isLoading}
               type="submit"
               className="border border-black p-2 mt-4"
             >

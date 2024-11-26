@@ -1,7 +1,7 @@
-
+import Loader from "../loader/loader"
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div> dashborder</div>
   )
 }
 
