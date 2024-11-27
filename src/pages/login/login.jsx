@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate, Link } from "react-router";
 import { setDataToLocalStorage } from "../../Utilies/LocalStorge";
 import { toast } from "sonner";
+import Loader from "../../loader/loader";
 const intialvalue = {
   email: "",
   password: "",
@@ -38,7 +39,9 @@ const Login = () => {
       console.log(error);
     }
   };
-
+if(isLoading){
+  return <Loader/>
+}
   return (
     <div className=" ">
       <h1 className="text-center font-[700] text-[24px]">Login user</h1>

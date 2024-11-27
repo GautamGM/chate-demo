@@ -44,7 +44,7 @@ export const getAdminDetail = createAsyncThunk(
     try {
       const res = await api.get("/api/detailAdmin");
       if (res.data) {
-        console.log(res, "response og the admiin detail");
+        console.log(res.data, "response og the admiin detail");
         return res.data;
       } else {
         return null;
@@ -62,11 +62,7 @@ const userSlice = createSlice({
     userData: null,
     isLoading: false,
   },
-  reducers: {
-    setUserData(state, action) {
-      state.userData = action.payload;
-    },
-  },
+  reducers: {},
   // extraReducer for the create us
   extraReducers(builder) {
     builder
@@ -88,8 +84,18 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected,(state)=>{
         state.isLoading=false
       })
+      .addCase(getAdminDetail.pending,(state)=>{
+        state.isLoading=true
+      })
+      .addCase(getAdminDetail.fulfilled,(state,action)=>{
+        state.userData=action.payload,
+        state.isLoading=false
+      })
+      .addCase(getAdminDetail.rejected,(state)=>{
+        state.userData=null,
+        state.isLoading=false
+      })
   },
 });
 
-export const { setUserData } = userSlice.actions;
 export const userReducer = userSlice.reducer;

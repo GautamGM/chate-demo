@@ -12,17 +12,20 @@ import { getAdminDetail } from "./Slices/userslice/userSlice";
 import PublicLayout from "./layout/publicLayout/publicLayout";
 import PrivateLayout from "./layout/privateLayout/privateLayout";
 import HomePage from "./pages/homePage/homepage";
+import LoginFormTailwind from "./pages/login/logintailwind";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login"/>}/>
-
+      <Route path="/home" element={<HomePage/>}/>
+{/* public route */}
       <Route element={<PublicLayout/>}>
-       <Route path="/login" element={<Login/>}/>
+       <Route path="/login" element={<LoginFormTailwind/>}/>
        <Route path="/register" element={<Register/>}/>
       </Route>
 
+{/* Private route */}
       <Route element={<PrivateLayout/>}>
        <Route path="/dashboard" element={<Dashboard/>}/>
       </Route>
