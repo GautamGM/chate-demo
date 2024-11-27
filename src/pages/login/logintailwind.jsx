@@ -1,7 +1,7 @@
 import { Box, Typography, Button, Paper, Divider } from "@mui/material";
 import { TextField } from "@mui/material";
 import { useState } from "react";
-
+import loginmage from "../../assets/images/bgLogin.png"
 const LoginFormTailwind = () => {
   const defaultValues = {
     email: "",
@@ -269,11 +269,14 @@ const LoginFormTailwind = () => {
         </Box>
       </Box>
       <Box
-        className="form-image"
+        className="form-image "
         sx={{
           width: "50%",
-          backgroundImage: `url("src/assets/form-image-bg.avif")`,
-          backgroundSize: "cover",
+          display:"flex",
+          flexDirection:"column",
+          bgcolor:"red",
+          justifyItems:"center",
+          alignItems:"center",
           display: {
             xs: "none",
             sm: "none",
@@ -282,7 +285,9 @@ const LoginFormTailwind = () => {
             xl: "block",
           },
         }}
-      ></Box>
+      >
+        <img src={loginmage} className="" alt="" />
+      </Box>
     </Box>
   );
 };
