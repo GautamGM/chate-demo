@@ -6,6 +6,7 @@ import { useNavigate, Navigate, Link } from "react-router";
 import { setDataToLocalStorage } from "../../Utilies/LocalStorge";
 import { toast } from "sonner";
 import Loader from "../../loader/loader";
+import RegistterController from "../register/register2Controller";
 const intialvalue = {
   email: "",
   password: "",

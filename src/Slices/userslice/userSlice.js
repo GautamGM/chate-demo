@@ -55,6 +55,7 @@ export const getAdminDetail = createAsyncThunk(
   }
 );
 
+
 // slice of he user
 const userSlice = createSlice({
   name: "user",
